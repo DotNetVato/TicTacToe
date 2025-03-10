@@ -27,6 +27,8 @@ public class TicTacToe implements MouseListener {
     private JLabel playerNumber;
     private java.awt.Panel buttonsPanel;
 
+    protected int trackSquares = 0;
+
     public void createAndShowGUI() {
 
         JFrame frame = new JFrame("Tic Tac Toe");
@@ -89,7 +91,7 @@ public class TicTacToe implements MouseListener {
 
     private void setPlayerName(String playerName) {
         this.playerName = playerName;
-        playerNumber.setText("Player: " + playerName);
+        playerNumber.setText("Player: " + playerName + " - squares " + trackSquares);
     }
 
     public void reset() {
@@ -103,6 +105,7 @@ public class TicTacToe implements MouseListener {
         button8.setText("");
         button9.setText("");
         setPlayerName(PLAYER_X);
+        trackSquares = 0;
     }
 
     public static void main(String[] args) {
@@ -117,6 +120,7 @@ public class TicTacToe implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         JButton currentButton = (JButton) e.getComponent();
         if (currentButton.getText().equals("")) {
+            trackSquares++;
             if (playerName.equals(PLAYER_X)) {
                 currentButton.setText("X");
                 setPlayerName(PLAYER_O);
@@ -126,6 +130,7 @@ public class TicTacToe implements MouseListener {
             }
         }
         checkForWinner();
+
     }
 
     private void checkForWinner() {
@@ -135,36 +140,27 @@ public class TicTacToe implements MouseListener {
             JOptionPane.showOptionDialog(null, "Player " + winnerName + " wins!", "Game Over",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
             reset();
+        }else if (trackSquares == 9) {
+            String[] str = { "OK" };
+            JOptionPane.showOptionDialog(null, "It's a draw!", "Game Over", JOptionPane.DEFAULT_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE, null, str, str[0]);
+            reset();
         }
     }
 
     private boolean findThreeInARow() {
-        if (button1.getText().equals(button2.getText()) && button2.getText().equals(button3.getText())
-                && !button1.getText().equals("")) {
-            return true;
-        } else if (button4.getText().equals(button5.getText()) && button5.getText().equals(button6.getText())
-                && !button4.getText().equals("")) {
-            return true;
-        } else if (button7.getText().equals(button8.getText()) && button8.getText().equals(button9.getText())
-                && !button7.getText().equals("")) {
-            return true;
-        } else if (button1.getText().equals(button4.getText()) && button4.getText().equals(button7.getText())
-                && !button1.getText().equals("")) {
-            return true;
-        } else if (button2.getText().equals(button5.getText()) && button5.getText().equals(button8.getText())
-                && !button2.getText().equals("")) {
-            return true;
-        } else if (button3.getText().equals(button6.getText()) && button6.getText().equals(button9.getText())
-                && !button3.getText().equals("")) {
-            return true;
-        } else if (button1.getText().equals(button5.getText()) && button5.getText().equals(button9.getText())
-                && !button1.getText().equals("")) {
-            return true;
-        } else if (button3.getText().equals(button5.getText()) && button5.getText().equals(button7.getText())
-                && !button3.getText().equals("")) {
-            return true;
-        }
-        return false;
+        if (button1.getText().equals(button2.getText()) && button2.getText().equals(button3.getText()) && !button1.getText().equals("") || 
+            button4.getText().equals(button5.getText()) && button5.getText().equals(button6.getText()) && !button4.getText().equals("") ||
+            button7.getText().equals(button8.getText()) && button8.getText().equals(button9.getText()) && !button7.getText().equals("") ||
+            button1.getText().equals(button4.getText()) && button4.getText().equals(button7.getText()) && !button1.getText().equals("") ||
+            button2.getText().equals(button5.getText()) && button5.getText().equals(button8.getText()) && !button2.getText().equals("") ||
+            button3.getText().equals(button6.getText()) && button6.getText().equals(button9.getText()) && !button3.getText().equals("") ||
+            button1.getText().equals(button5.getText()) && button5.getText().equals(button9.getText()) && !button1.getText().equals("") ||
+            button3.getText().equals(button5.getText()) && button5.getText().equals(button7.getText()) && !button3.getText().equals("")) {
+                return true;
+            } else {
+                return false;
+            }
     }
 
     @Override
