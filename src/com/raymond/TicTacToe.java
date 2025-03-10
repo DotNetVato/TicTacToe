@@ -109,7 +109,7 @@ public class TicTacToe implements MouseListener {
     }
 
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new TicTacToe().createAndShowGUI();
             }
